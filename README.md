@@ -1,6 +1,6 @@
 # autoscout24_price_prediction
 
-# Aufgabenbeschreibung (Datensatz analysieren)
+# Projektbeschreibung (Datensatz analysieren)
 
 In diesem Notebook soll ein Datensatz von [autoscout24](https://www.kaggle.com/datasets/ander289386/cars-germany) analysiert werden und anschließend mit verschiedenen Machine Learning Modellen eine Vorhersage für den Preis zu machen.
 
