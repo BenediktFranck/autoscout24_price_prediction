@@ -28,3 +28,8 @@ Um den Verkaufspreis vorherzusagen werden folgende Modelle traniert und deren G�
 # 4. Dashboard in Streamlit
 
 Um die Ergebnisse ansprechend darzustellen wurde Streamlit gewählt.
+Um die Streamlit App zu starten bitte zuerste das Notebook starten (Lokale Dateien werden erstellt).
+Anschließend:
+```
+streamlit run main.py
+```
