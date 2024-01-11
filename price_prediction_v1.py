@@ -32,11 +32,11 @@ def app():
                 vorhersage = pd.read_csv('dataframes/df_top5_prediction.csv')
                 vorhersage.drop(['price'], axis = 1, inplace= True)
                 vorhersage = vorhersage.head(0)
-                
-                
-                if "model_lr" not in st.session_state:  
-                    st.session_state.model_lr = None
-                    st.session_state.model_lr = train_model_lr()
+
+                @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
+                def load_model_lr():
+                    model_lr = train_model_lr()
+                    return model_lr
                         
                 if "model_dt" not in st.session_state:  
                     st.session_state.model_dt = None
@@ -115,8 +115,9 @@ def app():
             dash_2 = st.container(border = True)
             with dash_2:
                 if button:
-                    if model_select == 'LinearRegression' and st.session_state.model_lr != None:
-                        preis = st.session_state.model_lr.predict(vorhersage)
+                    if model_select == 'LinearRegression':
+                        model_lr = load_model_lr()
+                        preis = model_lr.predict(vorhersage)
                     elif model_select == 'DecisionTree' and st.session_state.model_dt != None:
                         preis = st.session_state.model_dt.predict(vorhersage)
                     elif model_select == 'RandomForest' and st.session_state.model_rf != None:
