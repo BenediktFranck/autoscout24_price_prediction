@@ -25,8 +25,8 @@ def app():
         # --- PATH SETTINGS ---
         #current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
         #css_file = current_dir / "styles" / "main.css"
-        resume_file = Path(__file__).parents[1] / 'assets/CV.pdf'
-        profile_pic = Path(__file__).parents[1] / 'assets/profile-pic.png'
+        resume_file = 'assets/CV.pdf'
+        profile_pic = 'assets/profile-pic.png'
      
         Path(__file__).parents[1] / 'GarretBurhennData/Garret_Burhenn_Pitches.csv'
         
