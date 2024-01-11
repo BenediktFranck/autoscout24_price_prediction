@@ -38,13 +38,15 @@ def app():
                     model_lr = train_model_lr()
                     return model_lr
                         
-                if "model_dt" not in st.session_state:  
-                    st.session_state.model_dt = None
-                    st.session_state.model_dt = train_model_dt()
-                        
-                if "model_rf" not in st.session_state:  
-                    st.session_state.model_rf = None
-                    st.session_state.model_rf = train_model_rf()
+                @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None})
+                def load_model_dt():
+                    model_dt = train_model_dt()
+                    return model_dt
+                    
+                @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None})
+                def load_model_rf():
+                    model_rf = train_model_rf()
+                    return model_rf
                 
                 if "graph_lr" not in st.session_state:  
                     st.session_state.graph_lr = None
@@ -118,10 +120,12 @@ def app():
                     if model_select == 'LinearRegression':
                         model_lr = load_model_lr()
                         preis = model_lr.predict(vorhersage)
-                    elif model_select == 'DecisionTree' and st.session_state.model_dt != None:
-                        preis = st.session_state.model_dt.predict(vorhersage)
-                    elif model_select == 'RandomForest' and st.session_state.model_rf != None:
-                        preis = st.session_state.model_rf.predict(vorhersage)
+                    elif model_select == 'DecisionTree':
+                        model_dt = load_model_dt()
+                        preis = model_dt.predict(vorhersage)
+                    elif model_select == 'RandomForest':
+                        model_rf = load_model_rf()
+                        preis = model_rf.predict(vorhersage)
                 
                     st.success(f'Der vorgeschlagene Inseratspreis deines Autos beträgt {int(preis[0])} €')
 
