@@ -50,7 +50,7 @@ def train_model_all_rf():
     X_train, X_test, y_train, y_test = train_test_split(df_top5_train.drop('price', axis =1)
                                                         , df_top5_train['price']
                                                         , test_size=0.33, random_state=42)
-    rf_all = RandomForestClassifier(n_estimators=13, max_depth=12)
+    rf_all = RandomForestClassifier(n_estimators=1, max_depth=1)
     rf_all.fit(X_train, y_train)
     return rf_all
 
