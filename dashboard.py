@@ -33,9 +33,7 @@ def app():
         st.write("[Datensatzquelle](https://www.kaggle.com/datasets/ander289386/cars-germany)")
         st.write("")
     
-  
 
-    
     # creates the container for metric card
     dash_2 = st.container()
     
@@ -50,11 +48,13 @@ def app():
         # create column span
         col1.metric(label="Anzahl Inserate", value= insertions)
         
-        col2.metric(label="Durchschnittlicher Inseratspreis", value= f"{int(avg_price)} €")
+        col2.metric(label="Anzahl verschiedener Automarken", value=total_orders)
         
-        col3.metric(label="Durchschnittliche Kilometerzahl", value= f"{int(avg_mileage)} km")
+        col3.metric(label="Durchschnittlicher Inseratspreis", value= f"{int(avg_price)} €")
         
-        col4.metric(label="Anzahl verschiedener Automarken", value=total_orders)
+        col4.metric(label="Durchschnittliche Kilometerzahl", value= f"{int(avg_mileage)} km")
+        
+
         
         # this is used to style the metric card
         style_metric_cards(border_left_color="#DBF227", border_size_px=0.1)
@@ -89,13 +89,23 @@ def app():
                   
             with col2_2:  
                       st.markdown("<h2 style='text-align: center;'>Beliebte Automarken und Modelle</h2>", unsafe_allow_html=True)
-                      make_counts = df[['make']].value_counts()
+                      fuel_select = st.selectbox('Welche Kraftstoff möchtest du betrachten?', ('Alle', 'Diesel', 'Electric', 'Electric/Gasoline','Gasoline'))
+                      if fuel_select == 'Alle':
+                          make_counts = df
+                          model_counts = df
+                      else:
+                          make_counts = df[(df['fuel']==fuel_select)]
+                          model_counts = df[(df['fuel']==fuel_select)]
+                      
+                      make_counts = make_counts[['make']].value_counts()
                       make_counts = pd.DataFrame(make_counts)
                       make_counts.reset_index(inplace=True)
                       
-                      model_counts = df[['model']].value_counts()
+                      #model_counts = df[(df['fuel']==fuel_select)]
+                      model_counts = model_counts[['model']].value_counts()
                       model_counts = pd.DataFrame(model_counts)
                       model_counts.reset_index(inplace=True)
+                      
                       
                       fig = make_subplots(rows=2, cols=1)
                       fig.append_trace(go.Bar(
@@ -130,7 +140,7 @@ def app():
                 st.markdown('')
                 plt.figure()
                 sns.set(rc={"figure.figsize":(61, 35)})
-                sns.pairplot(df[(df['price']<100000) & (df['mileage']<300000) & (df['hp']<500)])
+                sns.pairplot(df[(df['price']<1000000) & (df['mileage']<500000) & (df['hp']<800)])
                 sns.set(rc={'figure.figsize':(0.4,0.3)})
                 st.pyplot(plt)
             
@@ -206,6 +216,9 @@ def app():
                        margin=dict(t=20)
                    )
                  st.plotly_chart(fig,use_container_width=True)
+                 with st.expander("Vergleichsgraph"):
+                     st.image('graphs/diesel_graph.png')
+                     st.write('[Quelle](https://interaktiv.waz.de/diesel/)')
       
 
     with tab5:  
@@ -371,8 +384,3 @@ def app():
                   st.plotly_chart(fig,use_container_width=True)
     with tab7:  
         st.dataframe(df,use_container_width=True)
-
-          
-
-          
-          
