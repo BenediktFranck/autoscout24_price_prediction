@@ -85,7 +85,10 @@ def app():
                 for index, make in enumerate(makes):
                     if index > 9:
                         index = str(index)[-1]
-                    eval(f'col{index}').image(f'thumb/{make.lower()}.png')
+                    if make == 'Trailer-Anhänger':
+                        eval(f'col{index}').image('thumb/trailer.png')
+                    else:
+                        eval(f'col{index}').image(f'thumb/{make.lower()}.png')
                   
             with col2_2:  
                       st.markdown("<h2 style='text-align: center;'>Beliebte Automarken und Modelle</h2>", unsafe_allow_html=True)
