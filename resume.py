@@ -10,9 +10,7 @@ from pathlib import Path
 
 import streamlit as st
 from PIL import Image
-import os
 
-cwd = os.getcwd()
 
 
 
@@ -71,7 +69,7 @@ def app():
             st.download_button(
                 label=" 📄 Download Lebenslauf",
                 data=PDFbyte,
-                file_name=resume_file.name,
+                file_name=resume_file,
                 mime="application/octet-stream",
             )
             st.write("📫", EMAIL)
