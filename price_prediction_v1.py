@@ -11,6 +11,7 @@ import pandas as pd
 import pickle
 import plotly.express as px
 import plotly.graph_objects as go
+from ml_models import train_model_lr, train_model_dt, train_model_rf, train_model_all_rf
 #from sklearn.ensemble import RandomForestClassifier
 
 
@@ -31,23 +32,22 @@ def app():
                 vorhersage = pd.read_csv('dataframes/df_top5_prediction.csv')
                 vorhersage.drop(['price'], axis = 1, inplace= True)
                 vorhersage = vorhersage.head(0)
-                    
                 
                 
                 if "model_lr" not in st.session_state:  
                     st.session_state.model_lr = None
                     with open('models/linreg_top5.pkl', 'rb') as file:
-                        st.session_state.model_lr = pickle.load(file)
+                        st.session_state.model_lr = train_model_lr()
                         
                 if "model_dt" not in st.session_state:  
                     st.session_state.model_dt = None
                     with open('models/decisiontree_top5.pkl', 'rb') as file:
-                        st.session_state.model_dt = pickle.load(file)
+                        st.session_state.model_dt = train_model_dt()
                         
                 if "model_rf" not in st.session_state:  
                     st.session_state.model_rf = None
                     with open('models/randomforest_top5.pkl', 'rb') as file:
-                        st.session_state.model_rf = pickle.load(file)
+                        st.session_state.model_rf = train_model_rf()
                 
                 if "graph_lr" not in st.session_state:  
                     st.session_state.graph_lr = None
@@ -142,27 +142,29 @@ def app():
                     fig.add_scatter(x = [0,2], y = [preis[0],preis[0]], mode='lines', xaxis='x2',
                                         showlegend=True, line=dict(dash='dash', color = "firebrick", width = 2), name='Dein Verkaufspreis')
             
-                    st.plotly_chart(fig)
+                    st.plotly_chart(fig, use_container_width=True)
                     
         with st.expander("Fehlermetrik"):
-    
+                st.info('Um die Güte des Modells zu verbesser wurden nur Automodelle berücksichtigt welche min. 100x im Datensatz vorhanden sind.', icon="ℹ️")
+                st.write("[Jupyter Notebook](https://github.com/BenediktFranck/autoscout24_price_prediction/blob/main/Dataset_autoscout24.ipynb)")
+                
                 df_scores = pd.DataFrame([['1868.4', '2785.4', '0.88'],['1650.6','2830.4','0.87'],['1470.11','2519.0','0.90']],
-                                         columns=['Mean Absolute Error (MAE)','Root Mean Square Error (RMSE)', 'Bestimmheitsmaß R2'],
+                                         columns=['Mean Absolute Error (MAE)','Root Mean Squared Error (RMSE)', 'Bestimmheitsmaß R2'],
                                          index=['LinearRegression','DecisionTree','RandomForest'])
                 st.table(df_scores)
                 col1, col2, col3 = st.columns(3)
                 with col1:
                     fig = st.session_state.graph_lr
-                    fig.update_layout(height=420, width=420)
-                    st.plotly_chart(fig)
+                    fig.update_layout(height=420)
+                    st.plotly_chart(fig, use_container_width=True)
                 with col2:
                     fig = st.session_state.graph_dct
-                    fig.update_layout(height=420, width=420)
-                    st.plotly_chart(fig)
+                    fig.update_layout(height=420)
+                    st.plotly_chart(fig, use_container_width=True)
                 with col3:
                     fig = st.session_state.graph_rf
-                    fig.update_layout(height=420, width=420)
-                    st.plotly_chart(fig)
+                    fig.update_layout(height=420)
+                    st.plotly_chart(fig, use_container_width=True)
                     
 #MachineLearning Model für alle Automarken                
     with tab2:
@@ -180,7 +182,7 @@ def app():
                 if "model_rf_all" not in st.session_state:  
                     st.session_state.model_rf_all = None
                     with open('models/randomforest_all.pkl', 'rb') as file:
-                        st.session_state.model_rf_all = pickle.load(file)
+                        st.session_state.model_rf_all = train_model_all_rf()
                 
                 if "graph_rf_all" not in st.session_state:  
                     st.session_state.graph_rf_all = None
@@ -259,23 +261,15 @@ def app():
                     fig.add_scatter(x = [0,2], y = [preis[0],preis[0]], mode='lines', xaxis='x2',
                                         showlegend=True, line=dict(dash='dash', color = "firebrick", width = 2), name='Dein Verkaufspreis')
             
-                    st.plotly_chart(fig)
+                    st.plotly_chart(fig, use_container_width=True)
                     
         with st.expander("Fehlermetrik"):
-    
+                st.info('Um die Güte des Modells zu verbesser wurden nur Automodelle berücksichtigt welche min. 100x im Datensatz vorhanden sind.', icon="ℹ️")
+                st.write("[Jupyter Notebook](https://github.com/BenediktFranck/autoscout24_price_prediction/blob/main/Dataset_autoscout24.ipynb)")
+                
                 df_scores_all = pd.DataFrame([['1558.8', '2646.3', '0.92']],
-                                         columns=['Mean Absolute Error (MAE)','Root Mean Square Error (RMSE)', 'Bestimmheitsmaß R2'],
+                                         columns=['Mean Absolute Error (MAE)','Root Mean Squared Error (RMSE)', 'Bestimmheitsmaß R2'],
                                          index=['RandomForest'])
                 st.table(df_scores_all)
                 fig = st.session_state.graph_rf_all
-                st.plotly_chart(fig)
-
-
-        
-        
-        
-        
-        
-        
-        
-        
+                st.plotly_chart(fig, use_container_width=True)
