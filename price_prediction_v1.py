@@ -33,7 +33,7 @@ def app():
                 vorhersage.drop(['price'], axis = 1, inplace= True)
                 vorhersage = vorhersage.head(0)
 
-                @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
+                @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None})
                 def load_model_lr():
                     model_lr = train_model_lr()
                     return model_lr
