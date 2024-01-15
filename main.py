@@ -17,7 +17,7 @@ st.set_page_config(layout="wide")
 
 pages = {
     "1. Über mich": resume,
-    "2. Dashboard": dashboard,
+    "2. Autoscout24 Dashboard": dashboard,
     "3. Preisrechner": price_prediction_v1
     #"4. Model": price_prediction
 }
