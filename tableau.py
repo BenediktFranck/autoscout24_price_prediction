@@ -35,7 +35,7 @@ def app():
    _**Folgendes Tableau-Dashboard zeigt folgende 3 Informationen**_\n\n
    ♟ Weltkarte mit allen Stellplätzen auf Park4Night. Mittels keyword-Filter lassen sich Stellplätze nach Kommentaren filtern. Mit dem aktuellen keyword 'surfer' werden Stellplätze angezeigt wo man vermutlich gut surfen kann.\n
    ♟ Die Tortendiagramme zeigt die Verteilung der Stellplatzarten weltweit und nach dem ausgewählten Land.\n
-   ♟ Das Liniendiagramm zeigt die jährlichen Kommentare weltweit und im vergleich mit den beliebtesten Urlaubsländern. Man erkennt einen deutlich Knick im Corona Jahr.\n
+   ♟ Das Liniendiagramm zeigt die jährlichen Kommentare weltweit und im vergleich mit den beliebtesten Urlaubsländern. Man erkennt einen deutlichen Knick im Corona Jahr.\n
    Viel Spaß mit dem interaktiven Dashboard, probiere ruhig die Filter aus!\n\n
     """)
 
